@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+
+    <title></title>
+    <style>
+        .style{
+            text-decoration: line-through;
+        }
+    </style>
+    <script src="vue.js"> </script>
+    <script src="jquery-3.1.0.min.js"> </script>
+</head>
+<body>
+<div id="app">
+    {{message}}
+    <p>当前共{{backlog.length}}件待办，还剩下{{toDo()}}件</p>
+    <ul>
+        <li v-for="item in backlog">
+            <input type="checkbox" v-model="item.state">
+            <span v-bind:class="{style:item.state}">{{item.num}} :{{item.thing}}</span>
+            <button @click="del(item.num)">删除</button>
+        </li>
+    </ul>
+    <input type="text" id="text" @keyup="subKey($event)"><button @click="sub" id="sub">提交</button>
+    <button @click="clear">清除已办</button>
+
+</div>
+<script>
+    var app=new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello Vue!',
+            backlog:[
+                {
+                    num:1,
+                    thing:"第一件待办",
+                    state:false
+                },
+                {
+                    num:2,
+                    thing:"第2件待办",
+                    state:false
+                },
+                {
+                    num:3,
+                    thing:"第3件待办",
+                    state:false
+                }
+            ]
+        },
+        methods:{
+            toDo:function(){
+                var count=0;
+                for(var i= 0;i<this.backlog.length;i=i+1){
+                    if(this.backlog[i].state){
+                        count+=0
+                    }
+                    else{
+                        count+=1
+                    }
+                }
+//                this.backlog.forEach(function(item){
+//                            count+=item.state?0:1;
+//                        }
+
+//                );
+                return count
+            },
+            sub:function(e){
+                var text=$("#text");
+                var newData={
+                    num:this.backlog.length+1,
+                    thing:text.val(),
+                    state:false
+                };
+                this.backlog.push(newData);
+                text.val("")
+            },
+            subKey:function(e){
+                if(e.keyCode==13){
+                    $("#sub").click()
+                }
+            },
+            del:function(num){
+                for(var i=0;i<this.backlog.length;i=i+1){
+                    if(num==this.backlog[i].num){
+                        this.backlog.splice(i,1)
+                    }
+                }
+            },
+            clear:function(){
+                for(var i=0;i<this.backlog.length;i=i+1){
+                    if(this.backlog[i].state==true){
+                        this.backlog.splice(i,1);
+                        i=i-1
+                    }
+                }
+            }
+
+        }
+    })
+</script>
+
+</body>
+</html>

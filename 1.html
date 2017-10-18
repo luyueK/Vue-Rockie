@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+
+    <title></title>
+    <script src="vue.js"></script>
+</head>
+<body>
+<div id="app">
+    {{message}}
+    <input type="text" v-model="message" >
+    <!--<h4 v-if="age==2777">4号标题</h4>-->
+    <!--<h4 v-else-if="age==28">5号标题</h4>-->
+    <!--<h4 v-else>6号标题</h4>-->
+    <ul>
+        <li v-for="item in students">{{item}}</li>
+    </ul>
+    <button v-on:click="show">点击</button>
+    <button v-on:click="reverseMessage">反转</button>
+</div>
+<script>
+    var app=new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello Vue!',
+            age:26,
+            students:["张三","李四","万外国"]
+        },
+        methods:{
+            //定义方法
+            show:function(){
+                console.log("show")
+            },
+            reverseMessage: function () {
+                this.message = this.message.split('').reverse().join('')
+            }
+        }
+    })
+</script>
+
+</body>
+</html>
